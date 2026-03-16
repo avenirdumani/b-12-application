@@ -1,0 +1,25 @@
+name: B12 Submission Application Workflow
+on: [push]
+env:
+  SUBMISSION_URL: ${{ secrets.B12_SUBMISSIONS_URL }}
+  SIGNING_SECRET: ${{ secrets.B12_SIGNING_SECRET }}
+  RESUME_LINK: ${{ secrets.RESUME_LINK }}
+  REPOSITORY_LINK: ${{ github.server_url }}/${{ github.repository }}
+  ACTION_RUN_LINK: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+jobs:
+  Submit-Application:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "pypy3.10"
+          cache: "pip"
+      - name: "Install dependencies"
+        run: pip install -r requirements.txt
+      - name: "Submit application"
+        run: python3 main.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: submission-result
+          path: result.json
