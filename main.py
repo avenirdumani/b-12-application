@@ -39,7 +39,6 @@ def get_header_signature(payload: str) -> str:
 
 def make_request() -> None:
     payload = get_encoded_payload()
-    print(payload)
     header_signature = get_header_signature(payload=payload)
     headers = {"X-Signature-256": f"sha256={header_signature}"}
 
@@ -54,5 +53,4 @@ def make_request() -> None:
 
 
 if __name__ == "__main__":
-    print(get_encoded_payload())
-    # make_request()
+    make_request()
